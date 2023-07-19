@@ -26,7 +26,34 @@
 			]
 		},
 		{
+			"name": "getPrimaryName",
+			"inputs": [
+				{"name":"_owner","type":"address"}
+			],
+			"outputs": [
+				{"components":[{"name":"nftAddress","type":"address"},{"name":"name","type":"string"}],"name":"value0","type":"tuple"}
+			]
+		},
+		{
 			"name": "nameExists",
+			"inputs": [
+				{"name":"name","type":"string"}
+			],
+			"outputs": [
+				{"name":"value0","type":"bool"}
+			]
+		},
+		{
+			"name": "getInfoByName",
+			"inputs": [
+				{"name":"name","type":"string"}
+			],
+			"outputs": [
+				{"components":[{"name":"nftAddress","type":"address"},{"name":"name","type":"string"},{"name":"owner","type":"address"}],"name":"value0","type":"tuple"}
+			]
+		},
+		{
+			"name": "isValidUsername",
 			"inputs": [
 				{"name":"name","type":"string"}
 			],
@@ -41,6 +68,15 @@
 			],
 			"outputs": [
 				{"name":"value0","type":"uint128"}
+			]
+		},
+		{
+			"name": "setPrimaryName",
+			"inputs": [
+				{"name":"_nftAddress","type":"address"},
+				{"name":"_name","type":"string"}
+			],
+			"outputs": [
 			]
 		},
 		{
@@ -259,6 +295,7 @@
 		{"name":"_remainOnNft","type":"uint128"},
 		{"name":"_lastTokenId","type":"uint128"},
 		{"name":"_mintingFee","type":"uint128"},
-		{"name":"names","type":"optional(cell)"}
+		{"name":"names","type":"optional(cell)"},
+		{"components":[{"name":"nftAddress","type":"address"},{"name":"name","type":"string"}],"name":"primaries","type":"map(address,tuple)"}
 	]
 }

@@ -12,7 +12,7 @@ import './interfaces/ITokenBurned.sol';
 import './abstract/GameManager.sol';
 import './libraries/JSONAttributes.sol';
 
-contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft, GameManager {
+contract VenomIDNft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft, GameManager {
 
     /// @notice Test game params for json attribute
     string _btcAddress;
@@ -100,6 +100,16 @@ contract Nft is TIP4_1Nft, TIP4_2Nft, TIP4_3Nft, GameManager {
             flag: 64,
             bounce: false
         }(_data);
+    }
+
+    /// @notice Getter for `_name`
+    /// @return name
+    function getName() external responsible view returns(string name) {
+        return{
+            value: 0,
+            flag: 64,
+            bounce: false
+        }(_name);
     }
 
     /// @notice Getter for `_length`

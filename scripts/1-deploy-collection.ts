@@ -8,13 +8,13 @@ async function main() {
     "name": "VID",
     "description": "Venom IDentities (VID) serve as secure and easy-to-use domain names for managing your online presence. Venom IDentities (VID) are user-friendly solution to streamline your virtual identity management on the Venom blockchain. With VID, you can easily assign human-readable names to your blockchain and non-blockchain resources, such as Venom and Ethereum addresses, Social Media handles, website URLs, and more. VID enables these resources to be effectively managed and accessed via one, simple name.",
     "preview": {
-      "source": "https://ipfs.io/ipfs/QmUvfedgHDXdiMsq5nfLPGLQrR4QAYXHzR5SETBZQ6RGyd",
-      "mimetype": "image/svg"
+      "source": "https://ipfs.io/ipfs/Qmejr9qRtG3YYxqRCEVmjD1bW17mgQio8W1TjXjNSJn3DL",
+      "mimetype": "image/gif"
     },
     "files": [
       {
-        "source": "https://ipfs.io/ipfs/QmUvfedgHDXdiMsq5nfLPGLQrR4QAYXHzR5SETBZQ6RGyd",
-        "mimetype": "image/svg"
+        "source": "https://ipfs.io/ipfs/Qmejr9qRtG3YYxqRCEVmjD1bW17mgQio8W1TjXjNSJn3DL",
+        "mimetype": "image/gif"
       }
     ],
     "external_url": "https://venomid.network"
@@ -24,7 +24,7 @@ async function main() {
         type: 'text',
         name: 'ownerPubkey',
         message: 'Owner key',
-        initial: "4bc69a8c3889adee39f6f1e3b2353c86f960c9b835e93397a2015a62a4823765"
+        initial: "74f9ff2e7e633c48fb7da524947007972aa89040224817d2794ff845d935378a"
     },
   ]);
   spinner.start(`Deploy Collection`);

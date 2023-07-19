@@ -561,7 +561,7 @@ SETGLOB 4
 GETGLOB 24
 .loc ../contracts/Nft.sol, 0
 
-.macro getLength
+.macro getName
 DROP
 GETGLOB 6
 THROWIFNOT 76
@@ -571,6 +571,90 @@ IFREF {
 	CALL $c4_to_c7$
 }
 .loc ../contracts/Nft.sol, 107
+LDU 32
+GETGLOB 4
+ROT
+SETINDEXQ 5
+SETGLOB 4
+ENDS
+.loc ../contracts/Nft.sol, 0
+CALLREF {
+	CALL $getName_internal_macro$
+}
+OVER
+PUSHCONT {
+	PUSH S3
+	CTOS
+	LDU 2
+	LDMSGADDR
+	DROP
+	NIP
+	NEWC
+	STSLICECONST xc
+	STSLICE
+	PUSHINT 3131125045
+	STUR 130
+	STREF
+	ENDC
+	PUSHINT 0
+}
+PUSHCONT {
+	GETGLOB 4
+	DUP
+	INDEX 3
+	OVER
+	THIRD
+	GETGLOB 9
+	ROLL 3
+	SECOND
+	NEWC
+	STSLICECONST x2_
+	STI 1
+	STSLICECONST x1_
+	STSLICE
+	SWAP
+	STGRAMS
+	STDICT
+	PUSHINT 106
+	STZEROES
+	GETGLOB 4
+	INDEX 5
+	STUR 32
+	STREF
+	ENDC
+	GETGLOB 4
+	INDEX 4
+}
+IFELSE
+SENDRAWMSG
+IFREF {
+	CALL $upd_only_time_in_c4$
+}
+THROW 0
+
+.macro getName_internal_macro
+.loc ../contracts/Nft.sol, 112
+GETGLOB 4
+PUSHINT 0
+SETINDEXQ 2
+PUSHINT 64
+SETINDEXQ 4
+FALSE
+SETINDEXQ 1
+SETGLOB 4
+GETGLOB 23
+.loc ../contracts/Nft.sol, 0
+
+.macro getLength
+DROP
+GETGLOB 6
+THROWIFNOT 76
+GETGLOB 2
+ISNULL
+IFREF {
+	CALL $c4_to_c7$
+}
+.loc ../contracts/Nft.sol, 117
 LDU 32
 GETGLOB 4
 ROT
@@ -636,7 +720,7 @@ IFREF {
 THROW 0
 
 .macro getLength_internal_macro
-.loc ../contracts/Nft.sol, 112
+.loc ../contracts/Nft.sol, 122
 GETGLOB 4
 PUSHINT 0
 SETINDEXQ 2
@@ -653,7 +737,7 @@ GETGLOB 25
 CALL $_beforeTransfer_internal_macro$
 
 .macro _beforeTransfer_internal_macro
-.loc ../contracts/Nft.sol, 120
+.loc ../contracts/Nft.sol, 130
 CALLREF {
 	CALL $TIP4_3Nft__beforeTransfer_macro$
 }
@@ -664,7 +748,7 @@ CALLREF {
 CALL $_afterTransfer_internal_macro$
 
 .macro _afterTransfer_internal_macro
-.loc ../contracts/Nft.sol, 128
+.loc ../contracts/Nft.sol, 138
 CALLREF {
 	CALL $TIP4_3Nft__afterTransfer_macro$
 }
@@ -675,7 +759,7 @@ CALLREF {
 CALL $_beforeChangeOwner_internal_macro$
 
 .macro _beforeChangeOwner_internal_macro
-.loc ../contracts/Nft.sol, 137
+.loc ../contracts/Nft.sol, 147
 CALLREF {
 	CALL $TIP4_3Nft__beforeChangeOwner_macro$
 }
@@ -686,7 +770,7 @@ CALLREF {
 CALL $_afterChangeOwner_internal_macro$
 
 .macro _afterChangeOwner_internal_macro
-.loc ../contracts/Nft.sol, 146
+.loc ../contracts/Nft.sol, 156
 CALLREF {
 	CALL $TIP4_3Nft__afterChangeOwner_macro$
 }
@@ -701,7 +785,7 @@ ISNULL
 IFREF {
 	CALL $c4_to_c7$
 }
-.loc ../contracts/Nft.sol, 149
+.loc ../contracts/Nft.sol, 159
 OVER
 PUSHCONT {
 	LDREF
@@ -727,9 +811,9 @@ GETGLOB 9
 GETGLOB 14
 SDEQ
 THROWIFNOT 103
-.loc ../contracts/Nft.sol, 150
+.loc ../contracts/Nft.sol, 160
 ACCEPT
-.loc ../contracts/Nft.sol, 151
+.loc ../contracts/Nft.sol, 161
 GETGLOB 14
 GETGLOB 13
 GETGLOB 11
@@ -752,7 +836,7 @@ STBREFR
 ENDC
 PUSHINT 0
 SENDRAWMSG
-.loc ../contracts/Nft.sol, 152
+.loc ../contracts/Nft.sol, 162
 NEWC
 STSLICECONST x42_
 STSLICE
@@ -3547,7 +3631,7 @@ NIP
 
 .macro public_function_selector
 DUP
-PUSHINT 1343599975
+PUSHINT 983641397
 LEQ
 IFJMPREF {
 	DUP
@@ -3638,7 +3722,7 @@ IFJMPREF {
 		}
 	}
 	DUP
-	PUSHINT 1343599975
+	PUSHINT 983641397
 	LEQ
 	IFJMPREF {
 		DUP
@@ -3660,10 +3744,10 @@ IFJMPREF {
 			CALL $getLength$
 		}
 		DUP
-		PUSHINT 1343599975
+		PUSHINT 983641397
 		EQUAL
 		IFJMPREF {
-			CALL $setData$
+			CALL $getName$
 		}
 	}
 }
@@ -3671,6 +3755,12 @@ DUP
 PUSHINT 1904151404
 LEQ
 IFJMPREF {
+	DUP
+	PUSHINT 1343599975
+	EQUAL
+	IFJMPREF {
+		CALL $setData$
+	}
 	DUP
 	PUSHINT 1525619880
 	EQUAL

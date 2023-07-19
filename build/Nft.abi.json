@@ -46,6 +46,15 @@
 			]
 		},
 		{
+			"name": "getName",
+			"inputs": [
+				{"name":"answerId","type":"uint32"}
+			],
+			"outputs": [
+				{"name":"name","type":"string"}
+			]
+		},
+		{
 			"name": "getLength",
 			"inputs": [
 				{"name":"answerId","type":"uint32"}

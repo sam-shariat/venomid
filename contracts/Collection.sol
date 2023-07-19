@@ -1,4 +1,4 @@
-pragma ton-solidity =0.58.1;
+pragma ton-solidity = 0.58.1;
 
 pragma AbiHeader expire;
 pragma AbiHeader time;
@@ -10,7 +10,7 @@ import "@itgold/everscale-tip/contracts/access/OwnableExternal.sol";
 import "./interfaces/ITokenBurned.sol";
 import "./Nft.sol";
 
-contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITokenBurned {
+contract VID is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITokenBurned {
   /**
    * Errors
    **/
@@ -18,6 +18,8 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITok
   uint8 constant value_is_less_than_required = 102;
   uint8 constant name_can_not_be_less_than_3_words = 103;
   uint8 constant name_already_exists = 104;
+  uint8 constant name_invalid = 105;
+  uint8 constant nft_invalid = 106;
 
   /// _remainOnNft - the number of crystals that will remain after the entire mint
   /// process is completed on the Nft contract
@@ -27,7 +29,19 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITok
 
   uint128 _mintingFee;
 
-  mapping(string => address) names;
+  struct Primary {
+    address nftAddress;
+    string name;
+  }
+
+  struct Name {
+    address nftAddress;
+    string name;
+    address owner;
+  }
+
+  mapping(string => Name) names;
+  mapping(address => Primary) primaries;
 
   constructor(
     TvmCell codeNft,
@@ -48,9 +62,13 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITok
   }
 
   function mintNft(string json, string name) external virtual {
+    require(isValidUsername(name), name_invalid);
     require(!nameExists(name), name_already_exists);
     require(bytes(name).length > 2, name_can_not_be_less_than_3_words);
-    require(msg.value > _remainOnNft + calculateMintingFee(name) + (2 * _indexDeployValue), value_is_less_than_required);
+    require(
+      msg.value > _remainOnNft + calculateMintingFee(name) + (2 * _indexDeployValue),
+      value_is_less_than_required
+    );
     tvm.rawReserve(_mintingFee, 4);
 
     uint256 id = _lastTokenId;
@@ -59,7 +77,7 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITok
 
     TvmCell codeNft = _buildNftCode(address(this));
     TvmCell stateNft = _buildNftState(codeNft, id);
-    address nftAddr = new Nft{ stateInit: stateNft, value: 0, flag: 128 }(
+    address nftAddr = new VenomIDNft{ stateInit: stateNft, value: 0, flag: 128 }(
       msg.sender,
       msg.sender,
       msg.sender,
@@ -70,12 +88,53 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITok
       _indexDestroyValue,
       _codeIndex
     );
-    names[name] = msg.sender;
+    names[name] = Name(nftAddr,name,msg.sender);
+    if (!primaries.exists(msg.sender)) {
+      primaries[msg.sender] = Primary(nftAddr, name);
+    }
     emit NftCreated(id, nftAddr, msg.sender, msg.sender, msg.sender);
+  }
+
+  function getPrimaryName(address _owner) public view returns (Primary) {
+    if (primaries.exists(_owner)) {
+      return primaries[_owner];
+    } else {
+      return Primary(address(0), "");
+    }
   }
 
   function nameExists(string name) public view returns (bool) {
     return names.exists(name);
+  }
+
+  function getInfoByName(string name) public view returns (Name) {
+    if (nameExists(name)) {
+      return names[name];
+    } else {
+      return Name(address(0),'notfound',address(0));
+    }
+  }
+
+  function isValidUsername(string name) public view returns (bool) {
+    bytes nameBytes = bytes(name);
+    if (nameBytes.length <= 2 || nameBytes.length > 32) {
+        // Username length should be between 3 and 32 characters
+        return false;
+    }
+    for (uint i = 0; i < nameBytes.length; i++) {
+        bytes1 char = nameBytes[i];
+        if (    
+            !(uint8(char) >= 48 && uint8(char) <= 57) && // 0-9
+            !(uint8(char) >= 65 && uint8(char) <= 90) && // A-Z
+            !(uint8(char) >= 97 && uint8(char) <= 122) && // a-z
+            (char | bytes1(0x20) != bytes1(0x5f))
+        ) {
+            // Invalid character found in username
+            return false;
+        }
+    }
+    // All characters in username are valid 
+    return true;
   }
 
   function calculateMintingFee(string name) public view returns (uint128) {
@@ -90,6 +149,14 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITok
     } else {
       return _mintingFee;
     }
+  }
+
+  function setPrimaryName(address _nftAddress, string _name) external virtual {
+    tvm.rawReserve(0, 4);
+    Name nftInfo = getInfoByName(_name);
+    require(nftInfo.owner == msg.sender, sender_is_not_owner);
+    require(nftInfo.nftAddress == _nftAddress, nft_invalid);
+    primaries[msg.sender] = Primary(_nftAddress, _name);
   }
 
   function withdraw(address dest, uint128 value) external pure onlyOwner {
@@ -119,6 +186,6 @@ contract Collection is TIP4_2Collection, TIP4_3Collection, OwnableExternal, ITok
     TvmCell code,
     uint256 id
   ) internal pure virtual override(TIP4_2Collection, TIP4_3Collection) returns (TvmCell) {
-    return tvm.buildStateInit({ contr: Nft, varInit: { _id: id }, code: code });
+    return tvm.buildStateInit({ contr: VenomIDNft, varInit: { _id: id }, code: code });
   }
 }
