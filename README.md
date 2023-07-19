@@ -16,3 +16,12 @@ Trust that your virtual identity management is secure, seamless and above all, s
 
 ## website github code
 [https://github.com/sam-shariat/venomidapp](https://github.com/sam-shariat/venomidapp)
+
+## Useful Resources
+
+- [Locklift](https://github.com/broxus/locklift) - Hardhat-like development environment.
+- [Venom Docs](https://docs.venom.foundation/) - Official Venom Blockchain documentation.
+- [Awesome Venom](https://github.com/venom-blockchain/awesome-venom) - An awesome list about everything related to the <a href='https://venom.foundation/'>Venom Blockchain</a>.
+
+
+
