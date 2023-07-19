@@ -7,9 +7,12 @@ Trust that your virtual identity management is secure, seamless and above all, s
 ## website 
 
 [venomid.network](https://venomid.network/)
+<br/>
+[venomid.tools](https://venomid.tools/)
+<br/>
 
-## contract address on venom devnet
-[0:247682756b04b9e2290fd1801bcd7cd9ab5e46a167ff339e3e176355b5db4901](https://devnet.venomscan.com/accounts/0:247682756b04b9e2290fd1801bcd7cd9ab5e46a167ff339e3e176355b5db4901)
+## contract address on venom testnet
+[0:2787ba200fd3e45c1a4854768f69310fe4e9566383761f27936aff61ad79c8ab](https://testnet.venomscan.com/accounts/0:2787ba200fd3e45c1a4854768f69310fe4e9566383761f27936aff61ad79c8ab)
 
 ## website github code
 [https://github.com/sam-shariat/venomidapp](https://github.com/sam-shariat/venomidapp)
